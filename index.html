@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unicom Multimedia</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c') no-repeat center center fixed;
+      background-size: cover;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a {
+      margin: 0 1em;
+      color: white;
+      text-decoration: none;
+    }
+    .hero {
+      text-align: center;
+      color: white;
+      padding: 4em;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .section {
+      padding: 2em;
+      background-color: rgba(255, 255, 255, 0.9);
+      margin: 1em;
+    }
+    .product-category {
+      margin: 1em 0;
+    }
+    .product-list {
+      display: none;
+    }
+    .icon {
+      margin-right: 5px;
+    }
+    .product-item {
+      border: 1px solid #ccc;
+      padding: 1em;
+      margin: 1em 0;
+      background-color: #f9f9f9;
+      position: relative;
+    }
+    .product-actions {
+      margin-top: 10px;
+    }
+    .product-actions button {
+      margin-right: 10px;
+    }
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 1em;
+    }
+    .login {
+      color: white;
+    }
+    #uploadForm {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fa-solid fa-building"></i> Unicom Multimedia</h1>
+    <nav>
+      <a href="#home"><i class="fa-solid fa-house icon"></i>Beranda</a>
+      <a href="#products"><i class="fa-solid fa-box icon"></i>Produk</a>
+      <a href="#about"><i class="fa-solid fa-info-circle icon"></i>Tentang Kami</a>
+      <a href="#contact"><i class="fa-brands fa-whatsapp icon"></i>Call Center</a>
+      <a href="#login" class="login"><i class="fa-solid fa-user icon"></i>Login</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h2>Temukan Hunian dan Investasi Impian Anda bersama Unicom Multimedia!</h2>
+    <p>
+      Kami hadir untuk membantu Anda mewujudkan impian memiliki properti terbaik. Dari rumah hunian modern,
+      properti komersial strategis, hingga tanah potensial untuk investasi masa depan, semua tersedia di
+      Unicom Multimedia. Layanan kami terpercaya dan profesional untuk Anda yang mencari kenyamanan,
+      keuntungan, dan keamanan dalam setiap transaksi. Percayakan kebutuhan properti Anda kepada kami dan
+      rasakan pengalaman berbelanja properti yang berbeda!
+    </p>
+  </section>
+
+  <section class="section" id="products">
+    <h2>Produk Kami</h2>
+    <div class="product-category">
+      <button onclick="toggleCategory('properti')">Properti</button>
+      <div id="properti" class="product-list"></div>
+    </div>
+    <div class="product-category">
+      <button onclick="toggleCategory('rumah')">Rumah</button>
+      <div id="rumah" class="product-list"></div>
+    </div>
+    <div class="product-category">
+      <button onclick="toggleCategory('tanah')">Tanah</button>
+      <div id="tanah" class="product-list"></div>
+    </div>
+
+    <div id="uploadForm">
+      <h3>Upload Produk (Khusus Pemilik)</h3>
+      <form onsubmit="addProduct(event)">
+        <label for="type">Jenis Produk:</label>
+        <select name="type" id="type">
+          <option value="properti">Properti</option>
+          <option value="rumah">Rumah</option>
+          <option value="tanah">Tanah</option>
+        </select><br><br>
+        <label for="photo">Foto Produk:</label>
+        <input type="file" id="photo" accept="image/*"><br><br>
+        <label for="price">Harga:</label>
+        <input type="text" id="price" placeholder="Contoh: Rp 500.000.000"><br><br>
+        <label for="description">Deskripsi:</label><br>
+        <textarea id="description" rows="4" cols="50"></textarea><br><br>
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <h2>Tentang Kami</h2>
+    <p>Email: <a href="mailto:unicommultimedia.com">unicommultimedia.com</a></p>
+    <p><i class="fa-brands fa-facebook"></i> Facebook: Unicom Multimedia</p>
+    <p><i class="fa-brands fa-instagram"></i> Instagram: Unicom Multimedia</p>
+  </section>
+
+  <section class="section" id="contact">
+    <h2>Call Center</h2>
+    <p>WhatsApp: <a href="https://wa.me/6282141132140">082141132140</a></p>
+  </section>
+
+  <section class="section" id="login">
+    <h2>Login</h2>
+    <form onsubmit="handleLogin(event)">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required><br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required><br><br>
+      <button type="submit">Login</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Unicom Multimedia. All rights reserved.</p>
+  </footer>
+
+  <script>
+    let isLoggedIn = false;
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username === 'unicommultimedia' && password === 'Salikh19') {
+        isLoggedIn = true;
+        alert('Login berhasil!');
+        document.getElementById('uploadForm').style.display = 'block';
+      } else {
+        alert('Username atau password salah.');
+      }
+    }
+
+    function toggleCategory(id) {
+      const element = document.getElementById(id);
+      element.style.display = element.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function addProduct(event) {
+      event.preventDefault();
+      if (!isLoggedIn) {
+        alert('Anda harus login terlebih dahulu untuk mengupload produk.');
+        return;
+      }
+
+      const type = document.getElementById('type').value;
+      const photoInput = document.getElementById('photo');
+      const price = document.getElementById('price').value;
+      const description = document.getElementById('description').value;
+      const list = document.getElementById(type);
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const productItem = document.createElement('div');
+        productItem.className = 'product-item';
+        productItem.innerHTML = `
+          <img src="${e.target.result}" alt="Foto Produk" style="width:100%; max-width:300px;"><br>
+          <strong>Harga:</strong> ${price}<br>
+          <p>${description}</p>
+          <div class="product-actions">
+            <button onclick="markAsSold(this)">Tandai Terjual</button>
+            <button onclick="deleteProduct(this)">Hapus</button>
+          </div>
+        `;
+        list.appendChild(productItem);
+        list.style.display = 'block';
+      };
+      if (photoInput.files[0]) {
+        reader.readAsDataURL(photoInput.files[0]);
+      }
+    }
+
+    function deleteProduct(button) {
+      const item = button.closest('.product-item');
+      if (item) item.remove();
+    }
+
+    function markAsSold(button) {
+      const item = button.closest('.product-item');
+      if (item) item.style.opacity = 0.5;
+    }
+  </script>
+</body>
+</html>
